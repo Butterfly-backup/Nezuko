@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "uid",
 		version: "1.3",
-		author: "NTKhang",
+		author: "Yeasin",
 		countDown: 5,
 		role: 0,
 		description: {
