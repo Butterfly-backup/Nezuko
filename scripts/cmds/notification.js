@@ -3,9 +3,9 @@ const { getStreamsFromAttachment } = global.utils;
 module.exports = {
 	config: {
 		name: "notification",
-		aliases: ["notify", "noti"],
-		version: "1.7",
-		author: "NTKhang",
+		aliases: ["noti"],
+		version: "1.8",
+		author: "NTKhang & Modified by Yeasin",
 		countDown: 5,
 		role: 2,
 		description: {
@@ -14,7 +14,7 @@ module.exports = {
 		},
 		category: "owner",
 		guide: {
-			en: "{pn} <tin nhắn>"
+			en: "{pn} <your message>"
 		},
 		envConfig: {
 			delayPerGroup: 250
@@ -38,12 +38,17 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ message, api, event, args, commandName, envCommands, threadsData, getLang }) {
+	onStart: async function ({ message, api, event, args, commandName, envCommands, threadsData, getLang, usersData }) {
 		const { delayPerGroup } = envCommands[commandName];
 		if (!args[0])
 			return message.reply(getLang("missingMessage"));
+
+		// Get sender name
+		const senderInfo = await usersData.get(event.senderID);
+		const senderName = senderInfo?.name || "Someone";
+
 		const formSend = {
-			body: `${getLang("notification")}\n────────────────\n${args.join(" ")}`,
+			body: `${getLang("notification")}\n────────────────\n${senderName}: ${args.join(" ")}`,
 			attachment: await getStreamsFromAttachment(
 				[
 					...event.attachments,
